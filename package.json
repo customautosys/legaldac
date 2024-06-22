@@ -1,0 +1,16 @@
+{
+	"name": "legaldac",
+	"version": "1.0.0",
+	"description": "LEGAL-DAC (Programming Language)",
+	"main": "dist/index.js",
+	"repository": "https://github.com/customautosys/legaldac",
+	"author": "Wilson Foo Yu Kang",
+	"license": "NPOSL-3.0",
+	"packageManager": "yarn@4.3.1",
+	"dependencies": {
+		"libarchive.js": "^2.0.2"
+	},
+	"devDependencies": {
+		"tsc": "^2.0.4"
+	}
+}
