@@ -1,5 +1,5 @@
-import LegaldacDocument7Z from './LegaldacDocument7Z';
-import LegaldacDocumentXmlScript from './LegaldacDocumentXmlScript';
+import LegaldacDocument7Z from './types/LegaldacDocument7Z';
+import LegaldacDocumentXmlScript from './types/LegaldacDocumentXmlScript';
 
 export{
 	LegaldacDocument7Z,

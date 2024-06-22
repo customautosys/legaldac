@@ -3,14 +3,18 @@
 	"version": "1.0.0",
 	"description": "LEGAL-DAC (Programming Language)",
 	"main": "dist/index.js",
+	"bin": "dist/index.js",
 	"repository": "https://github.com/customautosys/legaldac",
 	"author": "Wilson Foo Yu Kang",
 	"license": "NPOSL-3.0",
 	"packageManager": "yarn@4.3.1",
 	"dependencies": {
-		"libarchive.js": "^2.0.2"
+		"fast-xml-parser": "^4.4.0",
+		"libarchive.js": "^2.0.2",
+		"semver": "^7.6.2"
 	},
 	"devDependencies": {
-		"tsc": "^2.0.4"
+		"@types/semver": "^7",
+		"typescript": "^5.5.2"
 	}
 }
