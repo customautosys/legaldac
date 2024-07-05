@@ -1,6 +1,6 @@
 {
 	"name": "legaldac",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "LEGAL-DAC (Programming Language)",
 	"scripts": {
 		"build": "tsc --noEmit && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
@@ -12,6 +12,7 @@
 	"license": "NPOSL-3.0",
 	"packageManager": "yarn@4.3.1",
 	"dependencies": {
+		"commander": "^12.1.0",
 		"es-main": "^1.3.0",
 		"fast-xml-parser": "^4.4.0",
 		"libarchive.js": "^2.0.2",
@@ -31,7 +32,7 @@
 		"typescript": "^5.5.2"
 	},
 	"type": "module",
-	"exports":{
+	"exports": {
 		"import": "./dist/index.mjs",
 		"require": "./dist/index.cjs",
 		"types": "./dist/index.d.ts"
