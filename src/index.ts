@@ -1,12 +1,6 @@
-import LegaldacDocument7Z from './types/LegaldacDocument7Z';
-import LegaldacDocumentXmlScript from './types/LegaldacDocumentXmlScript';
+import {cli} from './exports';
 
-export{
-	LegaldacDocument7Z,
-	LegaldacDocumentXmlScript
-};
+export * from './exports';
+export * as default from './exports';
 
-export default{
-	LegaldacDocument7Z,
-	LegaldacDocumentXmlScript
-};
+cli();
