@@ -1,5 +1,5 @@
 export function cli(){
-	if(globalThis.require.main!==globalThis.module)return;
+	return;
 };
 
 export default cli;
