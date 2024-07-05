@@ -1,4 +1,4 @@
-import libarchive from 'libarchive.js';
+import type libarchive_js from 'libarchive.js';
 import type {ArchiveReader} from 'libarchive.js/dist/build/compiled/archive-reader';
 import LegaldacDocumentXmlScript from './LegaldacDocumentXmlScript';
 import ArchiveFolderClauseRepository from './ArchiveFolderClauseRepository';
@@ -12,6 +12,7 @@ export class LegaldacDocument7Z{
 
 	async load(file:File){
 		this.file=file;
+		const libarchive:typeof libarchive_js=await import(typeof window==='undefined'?'libarchive.js/dist/libarchive-node.mjs':'libarchive.js');
 		let archive=await libarchive.Archive.open(file);
 		let archiveFiles:ArchiveFolder=await archive.extractFiles();
 		let ldxsFilenames=Object.keys(archiveFiles).filter(filename=>filename.toLowerCase().endsWith('.ldxs')&&archiveFiles[filename] instanceof File);

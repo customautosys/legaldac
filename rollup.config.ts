@@ -21,6 +21,22 @@ export default[{
 	}]
 },{
 	input:'src/index.ts',
+	external:/node_modules/,
+	plugins:[
+		esbuild({
+			minify:true
+		}),
+		json(),
+		nodeResolve()
+	],
+	output:[{
+		file:'dist/index.cjs',
+		format:'cjs',
+		sourcemap:true,
+		exports:'auto'
+	}]
+},{
+	input:'src/index.ts',
 	plugins:[dts()],
 	output:{
 		file:'dist/index.d.ts',
