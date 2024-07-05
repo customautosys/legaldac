@@ -9,7 +9,7 @@ export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 		return super.parse(xml,clauseRepository,'clause');
 	}
 
-	async parseOutputs(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
+	async parseOutput(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
 		let errors='';
 		let warnings='';
 		let outputReturns:OutputReturn[]=[];
@@ -21,7 +21,7 @@ export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 			outputReturns
 		};
 		if(outputNodes.length>1)warnings+='\nMore than 1 output tag found when only 1 is allowed, only parsing 1st output tag';
-		let returnNodes=outputNodes[0].input.filter(node=>node['return']);
+		let returnNodes=outputNodes[0].output.filter(node=>node['return']);
 		if(returnNodes.length>2)errors+='\nMore than 2 return tags found when only either 1 or 2 are allowed';
 		if(returnNodes.length<1)errors+='\nNo return tags found';
 		if(
@@ -41,22 +41,22 @@ export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 				)
 			)
 		){
-			errors+='\nIf there are 2 output tags, exactly 1 must have the type of string and 1 must have the type of OOXML';
+			errors+='\nIf there are 2 return tags in a clause, exactly 1 must have the type of string and 1 must have the type of OOXML';
 		}
 		if(returnNodes.length===1&&(returnNodes[0]?.[':@']?.type!=='string'||!returnNodes[0]?.[':@']?.type)&&returnNodes[0]?.[':@']?.type!=='OOXML'){
-			errors+='\nThe output type must be either string or OOXML';
+			errors+='\nThe return type must be either string or OOXML';
 		}
-		if(returnNodes.filter(outputNode=>!outputNode?.[':@']?.variable).length>0){
-			errors+='\nNo variable specified in output tag';
+		if(returnNodes.filter(returnNode=>!returnNode?.[':@']?.variable).length>0){
+			errors+='\nNo variable specified in return tag';
 		}
 		if(errors)return{
 			errors,
 			warnings,
 			outputReturns
 		};
-		outputReturns=returnNodes.map(outputNode=>({
-			type:outputNode?.[':@']?.type==='OOXML'?'OOXML':'string',
-			variable:outputNode[':@'].variable
+		outputReturns=returnNodes.map(returnNode=>({
+			type:returnNode?.[':@']?.type==='OOXML'?'OOXML':'string',
+			variable:returnNode[':@'].variable
 		}));
 		return{
 			errors,
