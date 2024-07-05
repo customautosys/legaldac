@@ -5,8 +5,8 @@
 	"scripts": {
 		"build": "tsc --noEmit && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
 	},
-	"main": "dist/index.js",
-	"bin": "dist/index.js",
+	"main": "dist/index.mjs",
+	"bin": "dist/index.mjs",
 	"repository": "https://github.com/customautosys/legaldac",
 	"author": "Wilson Foo Yu Kang",
 	"license": "NPOSL-3.0",
@@ -28,5 +28,6 @@
 		"rollup-plugin-esbuild": "^6.1.1",
 		"tslib": "^2.6.3",
 		"typescript": "^5.5.2"
-	}
+	},
+	"type": "module"
 }

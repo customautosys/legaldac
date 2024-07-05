@@ -1091,7 +1091,7 @@ __metadata:
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.5.2"
   bin:
-    legaldac: dist/index.js
+    legaldac: dist/index.mjs
   languageName: unknown
   linkType: soft
 

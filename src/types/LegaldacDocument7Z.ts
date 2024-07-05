@@ -1,8 +1,8 @@
-import {Archive} from 'libarchive.js';
+import libarchive from 'libarchive.js';
 import type {ArchiveReader} from 'libarchive.js/dist/build/compiled/archive-reader';
 import LegaldacDocumentXmlScript from './LegaldacDocumentXmlScript';
+import ArchiveFolderClauseRepository from './ArchiveFolderClauseRepository';
 import type ArchiveFolder from './ArchiveFolder';
-import { ArchiveFolderClauseRepository } from './ArchiveFolderClauseRepository';
 
 export class LegaldacDocument7Z{
 	protected file:File|null=null;
@@ -12,7 +12,7 @@ export class LegaldacDocument7Z{
 
 	async load(file:File){
 		this.file=file;
-		let archive=await Archive.open(file);
+		let archive=await libarchive.Archive.open(file);
 		let archiveFiles:ArchiveFolder=await archive.extractFiles();
 		let ldxsFilenames=Object.keys(archiveFiles).filter(filename=>filename.toLowerCase().endsWith('.ldxs')&&archiveFiles[filename] instanceof File);
 		if(ldxsFilenames.length<1)throw new Error('No LDXS LEGAL-DAC Document XML Script found');

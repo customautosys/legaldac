@@ -14,7 +14,7 @@ export default[{
 		nodeResolve()
 	],
 	output:[{
-		file:'dist/index.js',
+		file:'dist/index.mjs',
 		format:'es',
 		sourcemap:true,
 		exports:'auto'
