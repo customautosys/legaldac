@@ -1,5 +1,5 @@
 import dts from 'rollup-plugin-dts';
-import esbuild from 'rollup-plugin-esbuild';
+import esbuild, { minify } from 'rollup-plugin-esbuild';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 
@@ -7,7 +7,9 @@ export default[{
 	input:'src/index.ts',
 	external:/node_modules/,
 	plugins:[
-		esbuild(),
+		esbuild({
+			minify:true
+		}),
 		json(),
 		nodeResolve()
 	],
