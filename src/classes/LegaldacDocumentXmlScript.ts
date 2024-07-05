@@ -1,10 +1,10 @@
 import LegaldacXmlScript from './LegaldacXmlScript';
-import type ClauseRepository from './ClauseRepository';
-import type InputParameter from './InputParameter';
-import type PreserveOrderXmlNode from './PreserveOrderXmlNode';
-import type DocumentOutputReturn from './DocumentOutputReturn';
-import type ParseOutputReturn from './ParseOutputReturn';
-import type OutputDocumentTag from './OutputDocumentTag';
+import type ClauseRepository from '../interfaces/ClauseRepository';
+import type InputParameter from '../interfaces/InputParameter';
+import type PreserveOrderXmlNode from '../interfaces/PreserveOrderXmlNode';
+import type DocumentOutputReturn from '../interfaces/DocumentOutputReturn';
+import type ParseOutputReturn from '../interfaces/ParseOutputReturn';
+import type OutputDocumentTag from '../interfaces/OutputDocumentTag';
 
 export class LegaldacDocumentXmlScript extends LegaldacXmlScript{
 	declare protected outputReturns:DocumentOutputReturn[];

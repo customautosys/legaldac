@@ -1,8 +1,8 @@
 import semver from 'semver';
-import type ArchiveFolder from './ArchiveFolder';
-import type ClauseReference from './ClauseReference';
-import type ClauseRepository from './ClauseRepository';
-import type ClauseData from './ClauseData';
+import type ArchiveFolder from '../interfaces/ArchiveFolder';
+import type ClauseReference from '../interfaces/ClauseReference';
+import type ClauseRepository from '../interfaces/ClauseRepository';
+import type ClauseData from '../interfaces/ClauseData';
 
 export class ArchiveFolderClauseRepository implements ClauseRepository{
 	constructor(protected archiveFiles:ArchiveFolder){}

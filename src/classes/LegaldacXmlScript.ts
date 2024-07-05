@@ -4,14 +4,14 @@ import{
 }from 'fast-xml-parser';
 import semver from 'semver';
 import package_json from '../../package.json';
-import type PreserveOrderXmlNode from './PreserveOrderXmlNode';
-import type ClauseReference from './ClauseReference';
-import type InputParameter from './InputParameter';
-import type ClauseRepository from './ClauseRepository';
-import type ClauseData from './ClauseData';
-import type OutputReturn from './OutputReturn';
-import type ParseOutputReturn from './ParseOutputReturn';
-import type OutputDocumentTag from './OutputDocumentTag';
+import type PreserveOrderXmlNode from '../interfaces/PreserveOrderXmlNode';
+import type ClauseReference from '../interfaces/ClauseReference';
+import type InputParameter from '../interfaces/InputParameter';
+import type ClauseRepository from '../interfaces/ClauseRepository';
+import type ClauseData from '../interfaces/ClauseData';
+import type OutputReturn from '../interfaces/OutputReturn';
+import type ParseOutputReturn from '../interfaces/ParseOutputReturn';
+import type OutputDocumentTag from '../interfaces/OutputDocumentTag';
 
 export abstract class LegaldacXmlScript{
 	protected static readonly XML_PARSER_OPTIONS:X2jOptions={

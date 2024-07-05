@@ -1,8 +1,8 @@
 import LegaldacXmlScript from './LegaldacXmlScript';
-import type ClauseRepository from './ClauseRepository';
-import type InputParameter from './InputParameter';
-import type PreserveOrderXmlNode from './PreserveOrderXmlNode';
-import type OutputReturn from './OutputReturn';
+import type ClauseRepository from '../interfaces/ClauseRepository';
+import type InputParameter from '../interfaces/InputParameter';
+import type PreserveOrderXmlNode from '../interfaces/PreserveOrderXmlNode';
+import type OutputReturn from '../interfaces/OutputReturn';
 
 export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 	async parse(xml:string,clauseRepository:ClauseRepository){

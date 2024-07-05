@@ -2,7 +2,7 @@ import type libarchive_js from 'libarchive.js';
 import type {ArchiveReader} from 'libarchive.js/dist/build/compiled/archive-reader';
 import LegaldacDocumentXmlScript from './LegaldacDocumentXmlScript';
 import ArchiveFolderClauseRepository from './ArchiveFolderClauseRepository';
-import type ArchiveFolder from './ArchiveFolder';
+import type ArchiveFolder from '../interfaces/ArchiveFolder';
 
 export class LegaldacDocument7Z{
 	protected file:File|null=null;
