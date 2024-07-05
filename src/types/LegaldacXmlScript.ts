@@ -10,6 +10,7 @@ import type InputParameter from './InputParameter';
 import type ClauseRepository from './ClauseRepository';
 import type ClauseData from './ClauseData';
 import type OutputReturn from './OutputReturn';
+import type ParseOutputReturn from './ParseOutputReturn';
 
 export abstract class LegaldacXmlScript{
 	protected static readonly XML_PARSER_OPTIONS:X2jOptions={
@@ -66,6 +67,7 @@ export abstract class LegaldacXmlScript{
 			});
 		}
 		let inputParameters:InputParameter[]=[];
+		let outputReturns:OutputReturn[]=[];
 		let generationNodes=rootNode.filter(node=>node['generation']);
 		if(generationNodes.length<1)errors+='\nNo generation tag found';
 		if(generationNodes.length>1)warnings+='\nMore than 1 generation tag found when only 1 is allowed, only parsing 1st generation tag';
@@ -107,17 +109,21 @@ export abstract class LegaldacXmlScript{
 			}
 
 			//output section
-			let outputReturns=await this.parseOutputs(generationNodes,parsedXml,inputParameters,clauseRepository);
+			let parseOutputReturns=await this.parseOutputs(generationNodes,parsedXml,inputParameters,clauseRepository);
+			outputReturns=parseOutputReturns.outputReturns;
+			errors+=String(parseOutputReturns.errors);
+			warnings+=String(parseOutputReturns.warnings);
 		}
 		if(errors)throw new Error('Errors:'+errors+'\n\nWarnings:'+warnings);
 		this.parsedXml=parsedXml;
 		this.version=version;
 		this.clauseReferences=clauseReferences;
 		this.inputParameters=inputParameters;
+		this.outputReturns=outputReturns;
 		if(warnings)return 'Warnings:'+warnings;
 	}
 
-	abstract parseOutputs(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository):Promise<OutputReturn[]>|OutputReturn[];
+	abstract parseOutputs(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository):Promise<ParseOutputReturn>|ParseOutputReturn;
 };
 
 export default LegaldacXmlScript;
