@@ -33,7 +33,7 @@ export default[{
 		file:'dist/index.cjs',
 		format:'cjs',
 		sourcemap:true,
-		exports:'auto'
+		exports:'named'
 	}]
 },{
 	input:'src/index.ts',
