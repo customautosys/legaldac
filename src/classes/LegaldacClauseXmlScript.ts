@@ -3,13 +3,16 @@ import type ClauseRepository from '../interfaces/ClauseRepository';
 import type InputParameter from '../interfaces/InputParameter';
 import type PreserveOrderXmlNode from '../interfaces/PreserveOrderXmlNode';
 import type OutputReturn from '../interfaces/OutputReturn';
+import type Statement from '../interfaces/Statement';
+import type ParseOutputReturn from '../interfaces/ParseOutputReturn';
+import type GenerationSection from '../interfaces/GenerationSection';
 
 export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 	async parse(xml:string,clauseRepository:ClauseRepository){
 		return super.parse(xml,clauseRepository,'clause');
 	}
 
-	async parseOutput(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
+	protected async parseOutput(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
 		let errors='';
 		let warnings='';
 		let outputReturns:OutputReturn[]=[];
@@ -62,6 +65,15 @@ export class LegaldacClauseXmlScript extends LegaldacXmlScript{
 			errors,
 			warnings,
 			outputReturns
+		};
+	}
+
+	protected createGenerationSection(locale:string,inputParameters:InputParameter[],statements:Statement[],parseOutputReturn:ParseOutputReturn):GenerationSection{
+		return <GenerationSection>{
+			locale,
+			inputParameters,
+			statements,
+			outputReturns:parseOutputReturn.outputReturns
 		};
 	}
 };

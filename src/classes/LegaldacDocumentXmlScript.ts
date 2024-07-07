@@ -3,23 +3,17 @@ import type ClauseRepository from '../interfaces/ClauseRepository';
 import type InputParameter from '../interfaces/InputParameter';
 import type PreserveOrderXmlNode from '../interfaces/PreserveOrderXmlNode';
 import type DocumentOutputReturn from '../interfaces/DocumentOutputReturn';
-import type ParseOutputReturn from '../interfaces/ParseOutputReturn';
+import type DocumentParseOutputReturn from '../interfaces/DocumentParseOutputReturn';
 import type OutputDocumentTag from '../interfaces/OutputDocumentTag';
+import type Statement from '../interfaces/Statement';
+import type DocumentGenerationSection from '../interfaces/DocumentGenerationSection';
 
 export class LegaldacDocumentXmlScript extends LegaldacXmlScript{
-	declare protected outputReturns:DocumentOutputReturn[];
-	outputDocumentTag:OutputDocumentTag={
-		type:'constant',
-		value:''
-	};
-	returnAllInputs=true;
-	returnAllVariables=true;
-
 	async parse(xml:string,clauseRepository:ClauseRepository){
 		return super.parse(xml,clauseRepository,'document');
 	}
 
-	async parseOutput(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
+	protected async parseOutput(generationNodes:PreserveOrderXmlNode[],parsedXml:PreserveOrderXmlNode[],inputParameters:InputParameter[],clauseRepository:ClauseRepository){
 		let errors='';
 		let warnings='';
 		let outputReturns:DocumentOutputReturn[]=[];
@@ -96,13 +90,16 @@ export class LegaldacDocumentXmlScript extends LegaldacXmlScript{
 		};
 	}
 
-	setParseOutputReturn(parseOutputReturn:ParseOutputReturn){
-		if(parseOutputReturn){
-			this.outputReturns=parseOutputReturn.outputReturns;
-			if(parseOutputReturn.outputDocumentTag)this.outputDocumentTag=parseOutputReturn.outputDocumentTag;
-			this.returnAllInputs=parseOutputReturn.returnAllInputs===false?false:true;
-			this.returnAllVariables=parseOutputReturn.returnAllVariables===false?false:true;
-		}
+	protected createGenerationSection(locale:string,inputParameters:InputParameter[],statements: Statement[],parseOutputReturn:DocumentParseOutputReturn):DocumentGenerationSection{
+		return <DocumentGenerationSection>{
+			locale,
+			inputParameters,
+			statements,
+			outputReturns:parseOutputReturn.outputReturns,
+			outputDocumentTag:parseOutputReturn.outputDocumentTag,
+			returnAllInputs:parseOutputReturn.returnAllInputs,
+			returnAllVariables:parseOutputReturn.returnAllVariables
+		};
 	}
 };
 
