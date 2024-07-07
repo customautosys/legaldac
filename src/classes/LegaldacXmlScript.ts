@@ -44,29 +44,7 @@ export abstract class LegaldacXmlScript{
 		if(!semver.valid(legaldacversion))warnings+='\nAll root '+rootNodeName+' tags must have a legaldacversion attribute in the format <number>.<number>.<number>';
 		if(semver.gt(legaldacversion,package_json.version))warnings+='\nlegaldacversion is newer than this version of LEGAL-DAC';
 		let rootNode=rootNodes[0].document;
-		let clausesNodes=rootNode.filter(node=>node['clauses']);
-		if(clausesNodes.length>1)warnings+='More than 1 clauses tag found under root '+rootNodeName+' tag when at most 1 is allowed, only parsing 1st clauses tag';
-		let clauseReferences:ClauseReference[]=[];
-		let clauseDatas:{[key:string]:ClauseData}={};
-		if(clausesNodes.length>=1){
-			let clauseReferenceNodes=clausesNodes[0].clauses.filter(node=>node['clause']);
-			let results=await Promise.allSettled(clauseReferenceNodes.map(async clauseReferenceNode=>{
-				let clauseReference:ClauseReference={
-					id:clauseReferenceNode[':@']?.id,
-					version:String(clauseReferenceNode[':@']?.version)
-				};
-				let clauseData=await clauseRepository.getClauseData(clauseReference);
-				return {clauseData,clauseReference};
-			}));
-			results.forEach(result=>{
-				if(result.status==='fulfilled'){
-					clauseDatas[result.value.clauseData.identifier]=result.value.clauseData;
-					clauseReferences.push(result.value.clauseReference);
-					return;
-				}
-				errors+='\n'+result.reason;
-			});
-		}
+
 		let inputParameters:InputParameter[]=[];
 		let parseOutputReturn:ParseOutputReturn|null=null;
 		let generationNodes=rootNode.filter(node=>node['generation']);
