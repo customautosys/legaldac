@@ -1,6 +1,7 @@
 import cli from './functions/cli';
 
 import ArchiveFolderClauseRepository from './classes/ArchiveFolderClauseRepository';
+import ArchiveFolderDocxRepository from './classes/ArchiveFolderDocxRepository';
 import LegaldacClauseXmlScript from './classes/LegaldacClauseXmlScript';
 import LegaldacDocument7Z from './classes/LegaldacDocument7Z';
 import LegaldacDocumentXmlScript from './classes/LegaldacDocumentXmlScript';
@@ -11,21 +12,30 @@ import type ClauseData from './interfaces/ClauseData';
 import type ClauseReference from './interfaces/ClauseReference';
 import type ClauseRepository from './interfaces/ClauseRepository';
 import type DocumentOutputReturn from './interfaces/DocumentOutputReturn';
+import type DocxRepository from './interfaces/DocxRepository';
+import type ExecutionInputParams from './interfaces/ExecutionInputParams';
 import type InputParameter from './interfaces/InputParameter';
 import type OutputDocumentTag from './interfaces/OutputDocumentTag';
 import type OutputReturn from './interfaces/OutputReturn';
 import type ParseOutputReturn from './interfaces/ParseOutputReturn';
 import type PreserveOrderXmlNode from './interfaces/PreserveOrderXmlNode';
+import type PromptOption from './interfaces/PromptOption';
+import type PromptParams from './interfaces/PromptParams';
+import type PromptQuestion from './interfaces/PromptQuestion';
+import type PromptReturn from './interfaces/PromptReturn';
 import type Statement from './interfaces/Statement';
 
 export{
 	cli,
 	ArchiveFolderClauseRepository,
+	ArchiveFolderDocxRepository,
 	ArchiveFolder,
 	ClauseData,
 	ClauseReference,
 	ClauseRepository,
 	DocumentOutputReturn,
+	DocxRepository,
+	ExecutionInputParams,
 	InputParameter,
 	LegaldacClauseXmlScript,
 	LegaldacDocument7Z,
@@ -35,5 +45,9 @@ export{
 	OutputReturn,
 	ParseOutputReturn,
 	PreserveOrderXmlNode,
+	PromptOption,
+	PromptParams,
+	PromptQuestion,
+	PromptReturn,
 	Statement
 };

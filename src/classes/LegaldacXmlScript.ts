@@ -27,6 +27,8 @@ export abstract class LegaldacXmlScript{
 
 	protected parsedXml:PreserveOrderXmlNode[]=[];
 	protected version='';
+	protected legaldacVersion='';
+	protected defaultLocale='';
 	protected generationSections:GenerationSection[]=[];
 
 	protected async parse(xml:string,clauseRepository:ClauseRepository,rootNodeName:string){
@@ -38,16 +40,19 @@ export abstract class LegaldacXmlScript{
 		if(rootNodes.length>1)warnings+='\nMore than 1 root '+rootNodeName+' tag found when only 1 is allowed, only parsing 1st '+rootNodeName+' tag';
 		let version=String(rootNodes[0][':@']?.version);
 		if(!semver.valid(version))warnings+='\nAll root '+rootNodeName+' tags must have a version attribute in the format <number>.<number>.<number>';
-		let legaldacversion=String(rootNodes[0][':@']?.legaldacversion);
-		if(!semver.valid(legaldacversion))warnings+='\nAll root '+rootNodeName+' tags must have a legaldacversion attribute in the format <number>.<number>.<number>';
-		if(semver.gt(legaldacversion,package_json.version))warnings+='\nlegaldacversion is newer than this version of LEGAL-DAC';
-		let rootNode=rootNodes[0].document;
+		let legaldacVersion=String(rootNodes[0][':@']?.['legal-dac-version']);
+		if(!semver.valid(legaldacVersion))warnings+='\nAll root '+rootNodeName+' tags must have a legal-dac-version attribute in the format <number>.<number>.<number>';
+		if(semver.gt(legaldacVersion,package_json.version))warnings+='\nlegal-dac-version is newer than this version of LEGAL-DAC';
+		let defaultLocale=rootNodes[0][':@']?.['default-locale'];
+		let rootNode=rootNodes[0][rootNodeName];
 
 		let inputParameters:InputParameter[]=[];
 		let parseOutputReturn:ParseOutputReturn|null=null;
 		let generationNodes=rootNode.filter(node=>node['generation']&&node[':@']?.locale);
 		if(generationNodes.length<1)errors+='\nCould not find even a single valid generation tag with locale';
-		if(lodash.uniq(generationNodes.map(generationNode=>generationNode.locale)).length!==generationNodes.length)warnings+='Duplicate locales found, subsequent generation tags with the same locale will be ignored.';
+		if(lodash.uniq(generationNodes.map(generationNode=>generationNode[':@'].locale)).length!==generationNodes.length)warnings+='Duplicate locales found, subsequent generation tags with the same locale will be ignored.';
+		if(generationNodes.length>1&&!defaultLocale)errors+='More than 1 generation tag found and no default locale specified';
+		if(defaultLocale&&!generationNodes.some(generationNode=>generationNode[':@'].locale===defaultLocale))errors+='Default locale does not match the locale of any generation tag';
 
 		let generationSections:GenerationSection[]=[];
 		for(let i=0;i<generationNodes.length;++i){
@@ -106,6 +111,8 @@ export abstract class LegaldacXmlScript{
 		if(errors)throw new Error('Errors:'+errors+'\n\nWarnings:'+warnings);
 		this.parsedXml=parsedXml;
 		this.version=version;
+		this.legaldacVersion=legaldacVersion;
+		this.defaultLocale=defaultLocale;
 		this.generationSections=generationSections;
 		if(warnings)return 'Warnings:'+warnings;
 	}

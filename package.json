@@ -13,10 +13,12 @@
 	"packageManager": "yarn@4.3.1",
 	"dependencies": {
 		"commander": "^12.1.0",
+		"docxtemplater": "^3.49.2",
 		"es-main": "^1.3.0",
 		"fast-xml-parser": "^4.4.0",
 		"libarchive.js": "^2.0.2",
 		"lodash": "^4.17.21",
+		"pizzip": "^3.1.7",
 		"semver": "^7.6.2"
 	},
 	"devDependencies": {
@@ -25,6 +27,7 @@
 		"@rollup/plugin-typescript": "^11.1.6",
 		"@types/lodash": "^4",
 		"@types/node": "^20.14.9",
+		"@types/pizzip": "^3.0.5",
 		"@types/semver": "^7",
 		"esbuild": "^0.23.0",
 		"rollup": "^4.18.0",

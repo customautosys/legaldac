@@ -1,3 +1,4 @@
+import docxtemplater from 'docxtemplater';
 import LegaldacXmlScript from './LegaldacXmlScript';
 import type ClauseRepository from '../interfaces/ClauseRepository';
 import type InputParameter from '../interfaces/InputParameter';
@@ -7,8 +8,15 @@ import type DocumentParseOutputReturn from '../interfaces/DocumentParseOutputRet
 import type OutputDocumentTag from '../interfaces/OutputDocumentTag';
 import type Statement from '../interfaces/Statement';
 import type DocumentGenerationSection from '../interfaces/DocumentGenerationSection';
+import type PromptParams from '../interfaces/PromptParams';
+import type PromptReturn from '../interfaces/PromptReturn';
+import type ExecutionInputParams from '../interfaces/ExecutionInputParams';
+import type DocxRepository from '../interfaces/DocxRepository';
+import PizZip from 'pizzip';
 
 export class LegaldacDocumentXmlScript extends LegaldacXmlScript{
+	protected generationSections:DocumentGenerationSection[]=[];
+
 	async parse(xml:string,clauseRepository:ClauseRepository){
 		return super.parse(xml,clauseRepository,'document');
 	}
@@ -100,6 +108,41 @@ export class LegaldacDocumentXmlScript extends LegaldacXmlScript{
 			returnAllInputs:parseOutputReturn.returnAllInputs,
 			returnAllVariables:parseOutputReturn.returnAllVariables
 		};
+	}
+
+	async execute(docxRepository:DocxRepository,executionInputParams:ExecutionInputParams,prompt:(promptParams:PromptParams)=>Promise<PromptReturn>|PromptReturn,locale?:string):Promise<Blob>{
+		let generationSection:DocumentGenerationSection;
+		if(locale){
+			let section=this.generationSections.find(generationSection=>generationSection.locale===locale);
+			if(section){
+				generationSection=section;
+			}else{
+				throw new Error('No generation section found with locale '+locale);
+			}
+		}else{
+			if(this.defaultLocale){
+				let section=this.generationSections.find(generationSection=>generationSection.locale===this.defaultLocale);
+				if(section){
+					generationSection=section;
+				}else{
+					throw new Error('No generation section found with locale '+this.defaultLocale);
+				}
+			}else{
+				generationSection=this.generationSections[0];
+			}
+		}
+		//dummy, just take all the inputs and map it to the output for now
+		let docxPizzip=new PizZip(await docxRepository.getDocx(generationSection.outputDocumentTag.value));
+		let templater=new docxtemplater(docxPizzip,{
+			paragraphLoop:true,
+			linebreaks:true
+		});
+		await templater.renderAsync(executionInputParams);
+		return templater.getZip().generate({
+			type:'blob',
+			mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			compression:'DEFLATE'
+		});
 	}
 };
 
